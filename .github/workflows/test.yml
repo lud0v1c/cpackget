@@ -98,10 +98,10 @@ jobs:
           env: |
             GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
           install: |
-            apt-get update -q -y
-            apt-get install -q -y git make golang=2:1.18\~0ubuntu2
+            apt-get update -qq -y
+            apt-get install -qq -y git make golang=2:1.18\~0ubuntu2
           run: |
-            git clone https://github.com/$GITHUB_REPOSITORY
+            git clone https://github.com/$GITHUB_REPOSITORY -q
             cd cpackget
-            git checkout $GITHUB_REF
+            git checkout $GITHUB_REF -q
             make ARCH=arm64 GOOS=linux coverage-check

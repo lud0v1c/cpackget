@@ -95,6 +95,8 @@ jobs:
         with:
           arch: ${{ matrix.arch }}
           distro: ${{ matrix.distro }}
+          env: |
+            GIT_DISCOVERY_ACROSS_FILESYSTEM: 1
           install: |
             apt-get update -q -y
             apt-get install -q -y git make golang=2:1.18\~0ubuntu2

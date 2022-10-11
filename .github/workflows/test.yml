@@ -102,6 +102,6 @@ jobs:
             apt-get install -q -y git make golang=2:1.18\~0ubuntu2
           run: |
             git clone https://github.com/$GITHUB_REPOSITORY
-            git checkout $GITHUB_REF
             cd cpackget
+            git checkout $GITHUB_REF
             make ARCH=arm64 GOOS=linux coverage-check

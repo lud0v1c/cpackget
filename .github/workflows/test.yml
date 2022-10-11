@@ -83,9 +83,9 @@ jobs:
   test-arm64:
     strategy:
       matrix:
-        platform: [ubuntu22.04]
+        platform: [ubuntu-latest]
         go: [1.18.x]
-        arch: [arm64]
+        arch: [aarch64]
     name: '${{ matrix.platform }} | ${{ matrix.go }} | ${{ matrix.arch }}'
     runs-on: ${{ matrix.platform }}
     steps:

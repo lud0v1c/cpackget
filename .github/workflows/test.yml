@@ -79,3 +79,25 @@ jobs:
       - name: Unit testing
         run: |
           make coverage-check
+
+  test-arm64:
+    strategy:
+      matrix:
+        platform: [ubuntu22.04]
+        go: [1.18.x]
+        arch: [arm64]
+    name: '${{ matrix.platform }} | ${{ matrix.go }} | ${{ matrix.arch }}'
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - name: Unit testing
+        uses: uraimo/run-on-arch-action@v2
+        with:
+          arch: ${{ matrix.arch }}
+          distro: ${{ matrix.platform }}
+          install:
+            apt-get update -q -y
+            apt-get install -q -y git make golang=2:1.18\~0ubuntu2
+          run:
+            git clone --depth=1 --branch $GITHUB_REF https://github.com/$GITHUB_REPOSITORY
+            cd cpackget
+            make coverage-check

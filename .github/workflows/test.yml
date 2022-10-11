@@ -86,6 +86,7 @@ jobs:
         platform: [ubuntu-latest]
         go: [1.18.x]
         arch: [aarch64]
+        distro: [ubuntu_latest]
     name: '${{ matrix.platform }} | ${{ matrix.go }} | ${{ matrix.arch }}'
     runs-on: ${{ matrix.platform }}
     steps:
@@ -93,7 +94,7 @@ jobs:
         uses: uraimo/run-on-arch-action@v2
         with:
           arch: ${{ matrix.arch }}
-          distro: ${{ matrix.platform }}
+          distro: ${{ matrix.distro }}
           install:
             apt-get update -q -y
             apt-get install -q -y git make golang=2:1.18\~0ubuntu2

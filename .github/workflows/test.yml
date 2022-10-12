@@ -104,4 +104,4 @@ jobs:
             git clone https://github.com/$GITHUB_REPOSITORY -q
             cd cpackget
             git checkout $GITHUB_REF -q
-            make ARCH=arm64 GOOS=linux coverage-check
+            make ARCH=arm64 GOOS=linux ARGS="-v" coverage-check

@@ -235,7 +235,7 @@ func TestAddPack(t *testing.T) {
 		packPath := publicLocalPack123
 
 		// Force a bad file path
-		installer.Installation.PackRoot = filepath.Join(string(os.PathSeparator), string(os.PathSeparator))
+		installer.Installation.PackRoot = string(os.PathSeparator)
 		err := installer.AddPack(packPath, !CheckEula, !ExtractEula, !ForceReinstall, Timeout)
 
 		// Sanity check

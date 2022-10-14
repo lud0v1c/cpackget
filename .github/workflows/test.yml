@@ -3,7 +3,6 @@ name: Test
 on: [push, pull_request]
 
 jobs:
-
   lint:
     name: Lint
     timeout-minutes: 10
@@ -67,7 +66,7 @@ jobs:
       matrix:
         platform: [ubuntu-latest, windows-latest]
         go: [1.18.x]
-    name: '${{ matrix.platform }} | ${{ matrix.go }}'
+    name: "${{ matrix.platform }} | ${{ matrix.go }}"
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Check out repository code
@@ -87,7 +86,7 @@ jobs:
         go: [1.18.x]
         arch: [aarch64]
         distro: [ubuntu_latest]
-    name: '${{ matrix.platform }} | ${{ matrix.go }} | ${{ matrix.arch }}'
+    name: "${{ matrix.platform }} | ${{ matrix.go }} | ${{ matrix.arch }}"
     runs-on: ${{ matrix.platform }}
     steps:
       - name: Unit testing
@@ -104,4 +103,4 @@ jobs:
             git clone https://github.com/$GITHUB_REPOSITORY -q
             cd cpackget
             git checkout $GITHUB_REF -q
-            make ARCH=arm64 GOOS=linux ARGS="-v" coverage-check
+            make ARCH=arm64 GOOS=linux  ARGS="-v -run TestAddPack/test_installing_a_pack_that_has_problems_with_its_directory" test

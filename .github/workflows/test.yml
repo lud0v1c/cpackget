@@ -103,4 +103,4 @@ jobs:
             git clone https://github.com/$GITHUB_REPOSITORY -q
             cd cpackget
             git checkout $GITHUB_REF -q
-            make ARCH=arm64 GOOS=linux  ARGS="-v -run TestAddPack/test_installing_a_pack_that_has_problems_with_its_directory" test
+            make ARCH=arm64 GOOS=linux coverage-check

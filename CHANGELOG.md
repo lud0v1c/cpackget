@@ -1,3 +1,7 @@
+# v0.8.6
+
+(test release)
+
 # v0.8.5
 
 This v0.8.5 release contains:

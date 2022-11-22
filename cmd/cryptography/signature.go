@@ -390,7 +390,12 @@ func SignPack(packPath, certPath, keyPath, outputDir, version string, certOnly, 
 		fmt.Printf("Enter key passphrase: \n")
 		passphrase, err := term.ReadPassword(int(syscall.Stdin))
 		if err != nil {
-			return err
+			// Instead of complex mocks, just provide the passphrase when testing, error otherwise
+			if os.Getenv("TESTING_PASSPHRASE") != "" {
+				passphrase = []byte(os.Getenv("TESTING_PASSPHRASE"))
+			} else {
+				return err
+			}
 		}
 		keyring, err = getUnlockedKeyring(string(key), passphrase)
 		if err != nil {

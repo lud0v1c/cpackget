@@ -31,7 +31,7 @@ func GetDefaultCmsisPackRoot() string {
 	// Workaround to fake default mode in tests,
 	// by avoiding writing in any of the default locations,
 	// and using the generated testing pack dirs.
-	if root = os.Getenv("CPACKGET_DEFAULT_MODE_PATH"); root != "" {
+	if root = os.Getenv("TESTING_DEFAULT_MODE_PATH"); root != "" {
 		return filepath.Clean(root)
 	}
 	if runtime.GOOS == "windows" {

@@ -137,8 +137,9 @@ func runTests(t *testing.T, tests []TestCase) {
 		test.assert = assert
 		t.Run(test.name, func(t *testing.T) {
 			localTestingDir := strings.ReplaceAll(test.name, " ", "_")
+
 			if test.defaultMode {
-				os.Setenv("CPACKGET_DEFAULT_MODE_PATH", localTestingDir)
+				os.Setenv("TESTING_DEFAULT_MODE_PATH", localTestingDir)
 			}
 
 			os.Setenv("CMSIS_PACK_ROOT", localTestingDir)

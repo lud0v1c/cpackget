@@ -9,6 +9,7 @@ import (
 	"os"
 	"path"
 	"path/filepath"
+	"runtime"
 	"sort"
 	"strings"
 	"sync"
@@ -20,6 +21,44 @@ import (
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/mod/semver"
 )
+
+// GetDefaultCmsisPackRoot provides a default location
+// for the pack root if not provided. This is to enable
+// a "default mode", where the public index will be
+// automatically initiated if not ready yet.
+func GetDefaultCmsisPackRoot() string {
+	var root string
+	// Workaround to fake default mode in tests,
+	// by avoiding writing in any of the default locations,
+	// and using the generated testing pack dirs.
+	if root = os.Getenv("CPACKGET_DEFAULT_MODE_PATH"); root != "" {
+		return filepath.Clean(root)
+	}
+	if runtime.GOOS == "windows" {
+		root = os.Getenv("LOCALAPPDATA")
+		if root == "" {
+			root = os.Getenv("USERPROFILE")
+			if root != "" {
+				root = root + "\\AppData\\Local"
+			}
+		}
+		if root != "" {
+			root = root + "\\Arm\\Packs"
+		}
+	} else {
+		root = os.Getenv("XDG_CACHE_HOME")
+		if root == "" {
+			root = os.Getenv("HOME")
+			if root != "" {
+				root = root + "/.cache"
+			}
+		}
+		if root != "" {
+			root = root + "/arm/packs"
+		}
+	}
+	return filepath.Clean(root)
+}
 
 // AddPack adds a pack to the pack installation directory structure
 func AddPack(packPath string, checkEula, extractEula bool, forceReinstall bool, timeout int) error {
@@ -654,7 +693,11 @@ func SetPackRoot(packRoot string, create bool) error {
 	if !utils.DirExists(packRoot) && !create {
 		return errs.ErrPackRootDoesNotExist
 	}
-	log.Infof("Using pack root: \"%v\"", packRoot)
+	if packRoot == GetDefaultCmsisPackRoot() {
+		log.Infof("Using pack root: \"%v\" (default mode - no specific CMSIS_PACK_ROOT chosen)", packRoot)
+	} else {
+		log.Infof("Using pack root: \"%v\"", packRoot)
+	}
 
 	Installation = &PacksInstallationType{
 		PackRoot:    packRoot,
@@ -887,7 +930,8 @@ func (p *PacksInstallationType) packIsPublic(pack *PackType, timeout int) (bool,
 	}
 
 	// If the pack is being removed, there's no need to get its PDSC file under .Web
-	if pack.toBeRemoved {
+	// Same applies to locally sourced packs
+	if pack.toBeRemoved || pack.IsLocallySourced {
 		return true, nil
 	}
 

@@ -1,3 +1,36 @@
+# v0.8.5
+
+This v0.8.5 release contains:
+
+New features:
+- Don't fetch PDSC files from locally sourced packs
+
+Bug fixes:
+- Fix version handling on signature creation/verification
+
+# v0.8.5-rc1
+
+This v0.8.5-rc1 pre-release contains:
+
+Bug fixes:
+- Fix version handling on signature creation/verification
+
+# v0.8.4
+
+This v0.8.4 release contains:
+
+Bug fixes
+- Fix default pack root initialization
+
+# v0.8.3
+
+This v0.8.3 release contains:
+
+New features
+- cryptography module reworked to support X.509 and PGP schemes
+- Default `CMSIS_PACK_ROOT` location
+- Initialize public index if using the default pack root location
+
 # v0.8.2
 
 This v0.8.2 release contains:

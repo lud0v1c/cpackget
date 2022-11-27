@@ -70,7 +70,7 @@ format-check:
 
 .PHONY: test release config
 test: $(SOURCES)
-	cd cmd && GOOS=$(OS) GOARCH=$(ARCH) go test $(ARGS) ./... -coverprofile ../cover.out
+	cd cmd && GOOS=$(OS) GOARCH=$(ARCH) VERSION=`git describe --tags 2>/dev/null || echo unknown` go test $(ARGS) ./... -coverprofile ../cover.out
 
 test-all: format-check coverage-check lint
 

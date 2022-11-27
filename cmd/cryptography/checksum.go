@@ -25,9 +25,9 @@ func isValidHash(hashFunction string) bool {
 	return false
 }
 
-// WriteChecksumFile writes the digests of a pack
+// writeChecksumFile writes the digests of a pack
 // and writes it to a local file
-func WriteChecksumFile(digests map[string]string, filename string) error {
+func writeChecksumFile(digests map[string]string, filename string) error {
 	out, err := os.Create(filename)
 	if err != nil {
 		log.Error(err)
@@ -73,7 +73,7 @@ func GenerateChecksum(sourcePack, destinationDir, hashFunction string) error {
 	if err != nil {
 		return err
 	}
-	err = WriteChecksumFile(digests, checksumFilename)
+	err = writeChecksumFile(digests, checksumFilename)
 	if err != nil {
 		return err
 	}
